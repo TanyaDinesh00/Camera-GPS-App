@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:path/path.dart' as path;
 
 void main() => runApp(MyApp());
@@ -70,11 +71,13 @@ class _MyAppState extends State<MyApp> {
         setState(() {
           firstButtonText = 'saving in progress...';
         });
-
+        Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+//        List<Placemark> placemark = await Geolocator().placemarkFromCoordinates(position.latitude, position.longitude);
+//        Placemark place = placemark[0];
         print(pickedFile.path);
         String dir = (await getApplicationDocumentsDirectory()).path;
         String newPath = path.join(
-            dir, DateTime.now().toString() + path.extension(pickedFile.path));
+            dir,position.toString()+',' + DateTime.now().toString() + path.extension(pickedFile.path));
         File f = await File(pickedFile.path).copy(newPath);
         print(f.path);
 
@@ -99,11 +102,13 @@ class _MyAppState extends State<MyApp> {
         setState(() {
           secondButtonText = 'saving in progress...';
         });
-
+        Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+        //        List<Placemark> placemark = await Geolocator().placemarkFromCoordinates(position.latitude, position.longitude);
+        //        Placemark place = placemark[0];
         print(pickedFile.path);
         String dir = (await getApplicationDocumentsDirectory()).path;
         String newPath = path.join(
-            dir, DateTime.now().toString() + path.extension(pickedFile.path));
+            dir,position.toString()+',' + DateTime.now().toString() + path.extension(pickedFile.path));
         File f = await File(pickedFile.path).copy(newPath);
         print(f.path);
 
